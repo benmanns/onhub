@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"fmt"
 	"github.com/benmanns/onhub/diagnosticreport"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -36,49 +36,41 @@ func main() {
 	case viaHTTP:
 		resp, err := http.Get(source)
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "error getting report:", err)
-			os.Exit(1)
+			log.Fatalln("error getting report:", err)
 		}
 		defer func() {
 			if err := resp.Body.Close(); err != nil {
-				fmt.Fprintln(os.Stderr, "error closing gotten report:", err)
-				os.Exit(1)
+				log.Fatalln("error closing gotten report:", err)
 			}
 		}()
 		reader = resp.Body
 	case viaFile:
 		file, err := os.Open(source)
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "error opening report:", err)
-			os.Exit(1)
+			log.Fatalln("error opening report:", err)
 		}
 		defer func() {
 			if err := file.Close(); err != nil {
-				fmt.Fprintln(os.Stderr, "error closing opened report:", err)
-				os.Exit(1)
+				log.Fatalln("error closing opened report:", err)
 			}
 		}()
 		reader = file
 	default:
-		fmt.Fprintln(os.Stderr, "bad source mode")
-		os.Exit(1)
+		log.Fatalln("bad source mode")
 	}
 
 	data, err := ioutil.ReadAll(reader)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "error reading report:", err)
-		os.Exit(1)
+		log.Fatalln("error reading report:", err)
 	}
 
 	dr, err := diagnosticreport.Parse(data)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "error parsing report:", err)
-		os.Exit(1)
+		log.Fatalln("error parsing report:", err)
 	}
 
 	encoder := json.NewEncoder(os.Stdout)
 	if err := encoder.Encode(dr); err != nil {
-		fmt.Fprintln(os.Stderr, "error encoding report:", err)
-		os.Exit(1)
+		log.Fatalln("error encoding report:", err)
 	}
 }

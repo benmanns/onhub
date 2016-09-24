@@ -4,7 +4,7 @@ package diagnosticreport;
 
 message File {
   string path = 1;
-  string content = 2;
+  bytes content = 2;
 }
 
 message FileLength {

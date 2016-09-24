@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package diagnosticreport;
+
+message File {
+  string path = 1;
+  string content = 2;
+}
+
+message FileLength {
+  string path = 1;
+  int32 length = 2;
+}
+
+message CommandOutput {
+  string command = 1;
+  string output = 2;
+  int32 statusCode = 3;
+}
+
+message UnknownPair {
+  string unknown1 = 1;
+  string unknown2 = 2;
+}
+
+message DiagnosticReport {
+  string version = 1;
+  repeated File files = 2;
+  string stormVersion = 3;
+  string whirlwindVersion = 4;
+  string networkConfig = 5;
+  repeated FileLength fileLengths = 7;
+  string wanInfo = 8;
+  repeated CommandOutput commandOutputs = 9;
+  string infoJSON = 10;
+  int32 unknown1 = 11;
+  repeated UnknownPair unknownPairs = 12;
+  int32 unixTime = 13;
+}

@@ -4,19 +4,19 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/asaskevich/govalidator"
 	"github.com/benmanns/onhub/diagnosticreport"
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 )
 
 type loadMode int
 
 const (
-	url loadMode = iota
-	file
+	viaHTTP loadMode = iota
+	viaFile
 )
 
 func main() {
@@ -26,14 +26,14 @@ func main() {
 		source = "http://192.168.86.1/api/v1/diagnostic-report"
 	}
 	var mode loadMode
-	if govalidator.IsRequestURL(source) {
-		mode = url
+	if uri, err := url.ParseRequestURI(source); err != nil || uri.Scheme == "" {
+		mode = viaFile
 	} else {
-		mode = file
+		mode = viaHTTP
 	}
 	var reader io.Reader
 	switch mode {
-	case url:
+	case viaHTTP:
 		resp, err := http.Get(source)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "error getting report:", err)
@@ -46,7 +46,7 @@ func main() {
 			}
 		}()
 		reader = resp.Body
-	case file:
+	case viaFile:
 		file, err := os.Open(source)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "error opening report:", err)

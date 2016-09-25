@@ -20,8 +20,8 @@ type gzippedString []byte
 // compressed.
 func (f File) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
-		Path    string        `json:"path"`
-		Content gzippedString `json:"content"`
+		Path    string        `json:"path,omitempty"`
+		Content gzippedString `json:"content,omitempty"`
 	}{
 		Path:    f.Path,
 		Content: gzippedString(f.Content),

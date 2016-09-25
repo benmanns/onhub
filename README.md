@@ -68,6 +68,10 @@ jq < diagnostic-report.json
 
 ## Example outputs
 
+Note: these examples are unbuffered, but I recommend you use
+`onhubdump ./your-report | ...` or `jq ... < your-report.json` to avoid taxing
+your router.
+
 ### Get version
 
 ```sh

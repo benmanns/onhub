@@ -47,3 +47,33 @@ func (s gzippedString) MarshalJSON() ([]byte, error) {
 	}
 	return json.Marshal(string(b))
 }
+
+func (dr DiagnosticReport) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&struct {
+		Version          string           `json:"version,omitempty"`
+		Files            []*File          `json:"files,omitempty"`
+		StormVersion     string           `json:"stormVersion,omitempty"`
+		WhirlwindVersion string           `json:"whirlwindVersion,omitempty"`
+		NetworkConfig    string           `json:"networkConfig,omitempty"`
+		FileLengths      []*FileLength    `json:"fileLengths,omitempty"`
+		WanInfo          string           `json:"wanInfo,omitempty"`
+		CommandOutputs   []*CommandOutput `json:"commandOutputs,omitempty"`
+		InfoJSON         json.RawMessage  `json:"infoJSON,omitempty"`
+		Unknown1         int32            `json:"unknown1,omitempty"`
+		UnknownPairs     []*UnknownPair   `json:"unknownPairs,omitempty"`
+		UnixTime         int32            `json:"unixTime,omitempty"`
+	}{
+		Version:          dr.Version,
+		Files:            dr.Files,
+		StormVersion:     dr.StormVersion,
+		WhirlwindVersion: dr.WhirlwindVersion,
+		NetworkConfig:    dr.NetworkConfig,
+		FileLengths:      dr.FileLengths,
+		WanInfo:          dr.WanInfo,
+		CommandOutputs:   dr.CommandOutputs,
+		InfoJSON:         json.RawMessage(dr.InfoJSON),
+		Unknown1:         dr.Unknown1,
+		UnknownPairs:     dr.UnknownPairs,
+		UnixTime:         dr.UnixTime,
+	})
+}

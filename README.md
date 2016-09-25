@@ -2,13 +2,13 @@
 
 Various utilities for the OnHub router. Tested with the TP-Link variety.
 
-# Installation
+## Installation
 
 ```sh
 $ go get github.com/benmanns/onhub/cmd/onhubdump
 ```
 
-# Running
+## Running
 
 ```sh
 $ onhubdump
@@ -66,9 +66,9 @@ $ onhubdump > diagnostic-report.json
 $ jq < diagnostic-report.json
 ```
 
-# Example outputs
+## Example outputs
 
-## Get version
+### Get version
 
 ```sh
 $ onhubdump | jq '.version'
@@ -78,7 +78,7 @@ $ onhubdump | jq '.version'
 "8350.53.0 (Official Build) stable-channel whirlwind"
 ```
 
-## List file paths
+### List file paths
 
 ```sh
 $ onhubdump | jq '.files | .[] | .path'
@@ -99,7 +99,7 @@ $ onhubdump | jq '.files | .[] | .path'
 "/var/log/messages.1"
 ```
 
-## Output network config without escaping
+### Output network config without escaping
 
 ```sh
 $ onhubdump | jq -r '.networkConfig'
@@ -114,7 +114,7 @@ wireless_network {
 ...
 ```
 
-## List commands
+### List commands
 
 ```sh
 $ onhubdump | jq '.commandOutputs | .[] | .command'
@@ -134,7 +134,7 @@ $ onhubdump | jq '.commandOutputs | .[] | .command'
 "/usr/sbin/iw dev mesh-5000mhz station dump"
 ```
 
-## Get Upload/Download speed
+### Get Upload/Download speed
 
 ```sh
 $ onhubdump | jq '.infoJSON._apCloudStorage._wanSpeedTestResults | { up: ._uploadSpeedBytesPerSecond, down: ._downloadSpeedBytesPerSecond }'
@@ -147,7 +147,7 @@ $ onhubdump | jq '.infoJSON._apCloudStorage._wanSpeedTestResults | { up: ._uploa
 }
 ```
 
-## Show clients
+### Show clients
 
 ```sh
 $ onhubdump | jq '.infoJSON._apState._stations | .[] | { name: ._dhcpHostname, connected: ._connected }'
@@ -169,7 +169,7 @@ $ onhubdump | jq '.infoJSON._apState._stations | .[] | { name: ._dhcpHostname, c
 ...
 ```
 
-## Show names of connected clients
+### Show names of connected clients
 
 ```sh
 $ onhubdump | jq -r '.infoJSON._apState._stations | .[] | select(._connected) | ._dhcpHostname'

@@ -25,7 +25,7 @@ onhubdump http://192.168.85.1/api/v1/diagnostic-report
 If you want to run against a local, already downloaded dump:
 
 ```sh
-onhubdump path/to/diagnostic-report
+onhubdump ./path/to/diagnostic-report
 ```
 
 You will likely want to either save a copy of the diagnostic report or save a
@@ -34,7 +34,7 @@ generating the report takes a few seconds each time.
 
 ```sh
 curl -o diagnostic-report http://192.168.86.1/api/v1/diagnostic-report
-onhubdump diagnostic-report
+onhubdump ./diagnostic-report
 ```
 
 Alternatively:
@@ -56,7 +56,7 @@ Buffered report:
 
 ```sh
 curl -o diagnostic-report http://192.168.86.1/api/v1/diagnostic-report
-onhubdump diagnostic-report | jq
+onhubdump ./diagnostic-report | jq
 ```
 
 Buffered output:

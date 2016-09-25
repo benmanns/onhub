@@ -5,13 +5,13 @@ Various utilities for the OnHub router. Tested with the TP-Link variety.
 ## Installation
 
 ```sh
-$ go get github.com/benmanns/onhub/cmd/onhubdump
+go get github.com/benmanns/onhub/cmd/onhubdump
 ```
 
 ## Running
 
 ```sh
-$ onhubdump
+onhubdump
 ```
 
 This returns a JSON dump of the data from `http://192.168.86.1/api/v1/diagnostic-report`.
@@ -19,13 +19,13 @@ This returns a JSON dump of the data from `http://192.168.86.1/api/v1/diagnostic
 If you use a different subnet for your router:
 
 ```sh
-$ onhubdump http://192.168.85.1/api/v1/diagnostic-report
+onhubdump http://192.168.85.1/api/v1/diagnostic-report
 ```
 
 If you want to run against a local, already downloaded dump:
 
 ```sh
-$ onhubdump path/to/diagnostic-report
+onhubdump path/to/diagnostic-report
 ```
 
 You will likely want to either save a copy of the diagnostic report or save a
@@ -33,14 +33,14 @@ copy of the parsed output from onhubdump rather than re-running the command as
 generating the report takes a few seconds each time.
 
 ```sh
-$ curl -o diagnostic-report http://192.168.86.1/api/v1/diagnostic-report
-$ onhubdump diagnostic-report
+curl -o diagnostic-report http://192.168.86.1/api/v1/diagnostic-report
+onhubdump diagnostic-report
 ```
 
 Alternatively:
 
 ```sh
-$ onhubdump > diagnostic-report.json
+onhubdump > diagnostic-report.json
 ```
 
 Use the [jq](https://stedolan.github.io/jq/) tool to format and manipulate
@@ -49,21 +49,21 @@ output on the command line.
 Unbuffered:
 
 ```sh
-$ onhubdump | jq
+onhubdump | jq
 ```
 
 Buffered report:
 
 ```sh
-$ curl -o diagnostic-report http://192.168.86.1/api/v1/diagnostic-report
-$ onhubdump diagnostic-report | jq
+curl -o diagnostic-report http://192.168.86.1/api/v1/diagnostic-report
+onhubdump diagnostic-report | jq
 ```
 
 Buffered output:
 
 ```sh
-$ onhubdump > diagnostic-report.json
-$ jq < diagnostic-report.json
+onhubdump > diagnostic-report.json
+jq < diagnostic-report.json
 ```
 
 ## Example outputs
@@ -71,7 +71,7 @@ $ jq < diagnostic-report.json
 ### Get version
 
 ```sh
-$ onhubdump | jq '.version'
+onhubdump | jq '.version'
 ```
 
 ```
@@ -81,7 +81,7 @@ $ onhubdump | jq '.version'
 ### List file paths
 
 ```sh
-$ onhubdump | jq '.files | .[] | .path'
+onhubdump | jq '.files | .[] | .path'
 ```
 
 ```
@@ -102,7 +102,7 @@ $ onhubdump | jq '.files | .[] | .path'
 ### Output network config without escaping
 
 ```sh
-$ onhubdump | jq -r '.networkConfig'
+onhubdump | jq -r '.networkConfig'
 ```
 
 ```
@@ -117,7 +117,7 @@ wireless_network {
 ### List commands
 
 ```sh
-$ onhubdump | jq '.commandOutputs | .[] | .command'
+onhubdump | jq '.commandOutputs | .[] | .command'
 "/bin/ifconfig"
 "/usr/sbin/iw dev wlan-2400mhz station dump"
 "/usr/sbin/iw dev wlan-5000mhz station dump"
@@ -137,7 +137,7 @@ $ onhubdump | jq '.commandOutputs | .[] | .command'
 ### Get Upload/Download speed
 
 ```sh
-$ onhubdump | jq '.infoJSON._apCloudStorage._wanSpeedTestResults | { up: ._uploadSpeedBytesPerSecond, down: ._downloadSpeedBytesPerSecond }'
+onhubdump | jq '.infoJSON._apCloudStorage._wanSpeedTestResults | { up: ._uploadSpeedBytesPerSecond, down: ._downloadSpeedBytesPerSecond }'
 ```
 
 ```
@@ -150,7 +150,7 @@ $ onhubdump | jq '.infoJSON._apCloudStorage._wanSpeedTestResults | { up: ._uploa
 ### Show clients
 
 ```sh
-$ onhubdump | jq '.infoJSON._apState._stations | .[] | { name: ._dhcpHostname, connected: ._connected }'
+onhubdump | jq '.infoJSON._apState._stations | .[] | { name: ._dhcpHostname, connected: ._connected }'
 ```
 
 ```
@@ -172,7 +172,7 @@ $ onhubdump | jq '.infoJSON._apState._stations | .[] | { name: ._dhcpHostname, c
 ### Show names of connected clients
 
 ```sh
-$ onhubdump | jq -r '.infoJSON._apState._stations | .[] | select(._connected) | ._dhcpHostname'
+onhubdump | jq -r '.infoJSON._apState._stations | .[] | select(._connected) | ._dhcpHostname'
 ```
 
 ```

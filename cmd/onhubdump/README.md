@@ -105,6 +105,20 @@ onhubdump | jq '.files | .[] | .path'
 "/var/log/messages.1"
 ```
 
+### Read raw file contents
+
+```sh
+onhubdump | jq -r '.files | .[] | select(.path == "/var/log/messages") | .content'
+```
+
+```
+2019-11-11T16:28:53.788464+00:00 INFO ap-hal[1184]: [INFO:qca_wifi_phy.cc(268)] Unable to read qos metrics file
+2019-11-11T16:28:53.789888+00:00 ERR ap-monitor[1487]: [ERROR:qos_metrics_plugin.cc(247)] Unable to get qos_metrics5
+2019-11-11T16:28:53.790436+00:00 INFO ap-monitor[1487]: [INFO:qos_metrics_plugin.cc(202)] Unable to read qos metrics from kernel
+2019-11-11T16:28:53.790926+00:00 WARNING ap-monitor[1487]: [WARNING:qos_metrics_plugin.cc(117)] Unable to collect QoS Metrics
+...
+```
+
 ### Output network config without escaping
 
 ```sh
